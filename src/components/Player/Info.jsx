@@ -33,8 +33,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default ({ albumCover, albumName, songName, bandName }) => {
+export default () => {
   const classes = useStyles();
+  const albumCover = 'images/disguise.jpeg';
+  const albumName = 'Disguise';
+  const songName = '<c0de>';
+  const bandName = 'Motionless in White';
 
   return (
     <div className={classes.root}>

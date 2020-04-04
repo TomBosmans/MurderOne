@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
-import Info from './Player/Info';
-import Control from './Player/Control';
-import ExtraControl from './Player/ExtraControl';
+import Info from './Info';
+import Control from './Control';
+import ExtraControl from './ExtraControl';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -28,17 +28,17 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-export default ({albumName, albumCover, bandName, songName, song}) => {
+export default () => {
   const classes = useStyles();
-  
+
   return (
     <div className={classes.root}>
       <div className={classes.info}>
-        <Info albumCover={albumCover} albumName={albumName} songName={songName} bandName={bandName}/>
+        <Info/>
       </div>
 
       <div className={classes.control}>
-        <Control song={song}/>
+        <Control/>
       </div>
 
       <div className={classes.extraControl}>

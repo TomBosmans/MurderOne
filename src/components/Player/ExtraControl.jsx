@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
+import { useAudioContext } from '../../audioContext';
 import Slider from '@material-ui/core/Slider';
 import IconButton from '@material-ui/core/IconButton';
 import QueueMusicIcon from '@material-ui/icons/QueueMusic';
@@ -25,13 +26,26 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
-  const [volume, setVolume] = useState(0);
+  const audioContext = useAudioContext();
+  const gainNode = audioContext.gainNode;
+
   const [muted, setMuted] = useState(false);
+  const [volume, setVolume] = useState(gainNode.gain.value);
   const VolumeIcon = () => {
     if (muted) return <VolumeOffIcon/>;
     if (volume <= 0) return <VolumeMuteIcon/>;
     if (volume <= 0.5) return <VolumeDownIcon/>;
     return <VolumeUpIcon/>;
+  };
+
+  const onClickMute = () => {
+    setMuted(!muted);
+    gainNode.gain.value = !muted ? 0 : volume;
+  };
+
+  const onChangeVolume = (_, value) => {
+    setVolume(value);
+    gainNode.gain.value = value;
   };
 
   return (
@@ -44,7 +58,7 @@ export default () => {
         <CastIcon/>
       </IconButton>
 
-      <IconButton className={classes.button} onClick={() => setMuted(!muted)}>
+      <IconButton className={classes.button} onClick={onClickMute}>
         <VolumeIcon/>
       </IconButton>
 
@@ -54,7 +68,7 @@ export default () => {
               min={0}
               max={1}
               step={0.01}
-              onChange={(_, value) => setVolume(value)}/>
+              onChange={onChangeVolume}/>
     </div>
   );
 }

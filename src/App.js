@@ -2,6 +2,7 @@ import React from 'react';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 import Layout from './components/Layout';
+import { AudioContextProvider } from './audioContext';
 
 export default () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -11,6 +12,7 @@ export default () => {
       createMuiTheme({
         palette: {
           type: prefersDarkMode ? 'dark' : 'light',
+	  primary: { main: '#dd2c00' },
         },
       }),
     [prefersDarkMode],
@@ -18,9 +20,9 @@ export default () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Layout>
-	hallo world
-      </Layout>
+      <AudioContextProvider>
+        <Layout> hallo world </Layout>
+      </AudioContextProvider>
     </ThemeProvider>
   );
 }

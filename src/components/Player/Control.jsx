@@ -1,6 +1,7 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 
 import { makeStyles } from '@material-ui/core/styles';
+import { useAudioContext } from '../../audioContext';
 import IconButton from '@material-ui/core/IconButton';
 import ShuffleIcon from '@material-ui/icons/Shuffle';
 import SkipPreviousIcon from '@material-ui/icons/SkipPrevious';
@@ -26,7 +27,10 @@ const useStyles = makeStyles((theme) => ({
   playback: { gridArea: 'playback', width: '50vw' },
 }));
 
-export default ({ song }) => {
+export default () => {
+  const song = 'songs/code.mp3';
+  const audioContext = useAudioContext();
+
   const classes = useStyles();
   const player = useRef(null);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -47,6 +51,12 @@ export default ({ song }) => {
     setIsDragging(false);
     player.current.currentTime = value;
   };
+
+  useEffect(() => {
+    const track = audioContext.createMediaElementSource(player.current);
+    track.connect(audioContext.gainNode).connect(audioContext.destination);
+    audioContext.currentTrack = track; // tmp hack
+  }, [audioContext]);
 
   return (
     <div className={classes.root}>
