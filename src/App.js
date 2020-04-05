@@ -1,8 +1,13 @@
 import React from 'react';
+import { Provider } from 'react-redux';
+
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+
 import Layout from './components/Layout';
 import { AudioContextProvider } from './audioContext';
+
+import store from './store';
 
 export default () => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)');
@@ -21,7 +26,9 @@ export default () => {
   return (
     <ThemeProvider theme={theme}>
       <AudioContextProvider>
-        <Layout> hallo world </Layout>
+	<Provider store={store}>
+          <Layout> hallo world </Layout>
+	</Provider>
       </AudioContextProvider>
     </ThemeProvider>
   );
