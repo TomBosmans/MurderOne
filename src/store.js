@@ -1,4 +1,4 @@
-import rootReducer from './reducers';
+import rootReducer from './rootReducer';
 import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 

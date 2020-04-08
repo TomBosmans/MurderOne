@@ -42,6 +42,7 @@ export default () => {
 
   return (
     <div className={classes.root}>
+
       <Avatar variant='rounded' src={albumCover} className={classes.albumCover}>
         {albumName[0]}
       </Avatar>

@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setIsMuted, setVolume, selectIsMuted, selectVolume } from '../../state/player';
 import { makeStyles } from '@material-ui/core/styles';
-import { useAudioContext } from '../../audioContext';
 import Slider from '@material-ui/core/Slider';
 import IconButton from '@material-ui/core/IconButton';
 import QueueMusicIcon from '@material-ui/icons/QueueMusic';
@@ -26,26 +27,18 @@ const useStyles = makeStyles((theme) => ({
 
 export default () => {
   const classes = useStyles();
-  const audioContext = useAudioContext();
-  const gainNode = audioContext.gainNode;
+  const dispatch = useDispatch();
+  const muted = useSelector(state => selectIsMuted(state));
+  const volume = useSelector(state => selectVolume(state));
 
-  const [muted, setMuted] = useState(false);
-  const [volume, setVolume] = useState(gainNode.gain.value);
+  const onMute = () => dispatch(setIsMuted(!muted));
+  const onVolumeChange = (_, value) => dispatch(setVolume(value));
+
   const VolumeIcon = () => {
     if (muted) return <VolumeOffIcon/>;
     if (volume <= 0) return <VolumeMuteIcon/>;
     if (volume <= 0.5) return <VolumeDownIcon/>;
     return <VolumeUpIcon/>;
-  };
-
-  const onClickMute = () => {
-    setMuted(!muted);
-    gainNode.gain.value = !muted ? 0 : volume;
-  };
-
-  const onChangeVolume = (_, value) => {
-    setVolume(value);
-    gainNode.gain.value = value;
   };
 
   return (
@@ -58,7 +51,8 @@ export default () => {
         <CastIcon/>
       </IconButton>
 
-      <IconButton className={classes.button} onClick={onClickMute}>
+      <IconButton className={classes.button}
+                  onClick={onMute}>
         <VolumeIcon/>
       </IconButton>
 
@@ -68,7 +62,7 @@ export default () => {
               min={0}
               max={1}
               step={0.01}
-              onChange={onChangeVolume}/>
+              onChange={onVolumeChange}/>
     </div>
   );
 }

@@ -5,7 +5,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
 
 import Layout from './components/Layout';
-import { AudioContextProvider } from './audioContext';
+import Audio from './components/Audio';
 
 import store from './store';
 
@@ -25,11 +25,10 @@ export default () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <AudioContextProvider>
-	<Provider store={store}>
-          <Layout> hallo world </Layout>
-	</Provider>
-      </AudioContextProvider>
+      <Provider store={store}>
+	<Audio/>
+        <Layout/>
+      </Provider>
     </ThemeProvider>
   );
 }
